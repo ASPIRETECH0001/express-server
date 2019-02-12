@@ -1,6 +1,6 @@
 const express = require('express');
 const hbs = require('hbs');
-// const fs = require('fs');
+const fs = require('fs');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -19,19 +19,19 @@ hbs.registerHelper('screamIt', (text) => {
 // configure view engine
 app.set('view engine', 'hbs');
 
-// app.use((req, res, next) => {
-//
-//     const date = new Date().toString();
-//     const log = `${date}: ${req.method} on ${req.url}`;
-//
-//     fs.appendFile('server.log', log + '\n', (error) => {
-//         if (error) {
-//             console.log('server.log file did not open', error);
-//         }
-//     });
-//
-//     next();
-// });
+app.use((req, res, next) => {
+
+    const date = new Date().toString();
+    const log = `${date}: ${req.method} on ${req.url}`;
+
+    fs.appendFile('server.log', log + '\n', (error) => {
+        if (error) {
+            console.log('server.log file did not open', error);
+        }
+    });
+
+    next();
+});
 
 // configure middleware
 app.use(express.static(__dirname + '/public'));
